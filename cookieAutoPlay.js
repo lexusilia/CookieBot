@@ -28,37 +28,14 @@ AutoPlay.run = function () {
 AutoPlay.preNightMode = function() { var h=(new Date).getHours(); return(h>=22); }
 
 AutoPlay.nightMode = function() { 
-  var h=(new Date).getHours();
-  if(h>=7 && h<23) { // be active
-    if (AutoPlay.night) AutoPlay.useLump();
-    AutoPlay.night=false;
-    var gs=Game.Upgrades["Golden switch [on]"]; if(gs.unlocked) {
-      if (Game.isMinigameReady(Game.Objects["Temple"])) {
-        AutoPlay.removeSpirit(1,"asceticism");
-//        AutoPlay.assignSpirit(1,"decadence",0);
-//        AutoPlay.assignSpirit(2,"labor",0);
-      } 
-	  gs.buy();
-	}
-    return true;
-  }
-  if (AutoPlay.night) return true; //really sleep now
-  var gs=Game.Upgrades["Golden switch [off]"]; if(gs.unlocked) {
-    AutoPlay.handleGoldenCookies();
-    var buffCount=0;
-    for (var i in Game.buffs) { if(Game.buffs[i].time>=0) buffCount++; }
-	if((buffCount==1 && Game.hasBuff("Clot")) || h<7) gs.buy();
-	if(!gs.bought) return true; // do not activate spirits before golden switch
+  if (AutoPlay.night) AutoPlay.useLump();
+  AutoPlay.night=false;
+  var gs=Game.Upgrades["Golden switch [on]"]; if(gs.unlocked) {
     if (Game.isMinigameReady(Game.Objects["Temple"])) {
-//	  AutoPlay.assignSpirit(0,"mother",1); 
-      AutoPlay.removeSpirit(1,"decadence");
-      AutoPlay.removeSpirit(2,"labor");
-      AutoPlay.assignSpirit(1,"asceticism",1);
-      AutoPlay.assignSpirit(2,"industry",1);
-    }
-  }
-  AutoPlay.night=true;
-  return true;
+      AutoPlay.removeSpirit(1,"asceticism");
+    } 
+  gs.buy();
+  return false;
 }
 
 //===================== Handle Cookies and Golden Cookies ==========================
