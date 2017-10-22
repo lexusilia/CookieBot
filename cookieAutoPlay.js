@@ -40,7 +40,7 @@ AutoPlay.nightMode = function() {
       } 
 	  gs.buy();
 	}
-    return false;
+    return true;
   }
   if (AutoPlay.night) return true; //really sleep now
   var gs=Game.Upgrades["Golden switch [off]"]; if(gs.unlocked) {
